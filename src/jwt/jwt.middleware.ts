@@ -1,6 +1,6 @@
 import { NextFunction, Response } from 'express';
 import { JwtPayload, verify } from 'jsonwebtoken';
-import config from '../config';
+import { SECRET } from '../env';
 import { newRequest } from '../interfaces/new-request.interface';
 
 export default function (req: newRequest, res: Response, next: NextFunction): any {
@@ -10,7 +10,7 @@ export default function (req: newRequest, res: Response, next: NextFunction): an
             return res.status(403).json({ message: 'Not authorized' });
         }
 
-        req.jwtPayload = verify(token, config.SECRET, { complete: false }) as JwtPayload;
+        req.jwtPayload = verify(token, SECRET, { complete: false }) as JwtPayload;
         return next();
     } catch (e) {
         return res.status(403).json({ message: 'Not authorized' });

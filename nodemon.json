@@ -6,5 +6,10 @@
     "ignore": [
         "./**/*.spec.ts"
     ],
-    "exec": "cross-env APP_PORT=8000  node --max-old-space-size=2048 --inspect=0.0.0.0:5555 --require ts-node/register src/app.ts"
+    "env": {
+        "APP_PORT": "8000",
+        "WS_PORT": "9000"
+    },
+
+    "exec": "node --max-old-space-size=2048 --inspect=0.0.0.0:5555 --require ts-node/register src/app.ts"
 }

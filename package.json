@@ -8,7 +8,6 @@
     "build": "rm -rf dist && npx tsc",
     "dev": "npx nodemon"
   },
-  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {

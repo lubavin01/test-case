@@ -7,7 +7,7 @@ const chatRoomRouter = Router();
 chatRoomRouter.post(
     '/create',
     [
-        check('name', 'name does not match /[A-Za-z]+/')
+        check('name', 'name should only contain latin letters')
             .isString()
             .custom((value: string) => {
                 const search = value.match(/[A-Za-z]+/);

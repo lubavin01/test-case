@@ -5,15 +5,11 @@ import userController from './user/user.route';
 import chatRoomController from './chat-room/chat-room.route';
 import jwtMiddleware from './jwt/jwt.middleware';
 
-import ws from 'ws';
-import { v4 as uuid } from 'uuid';
+import { wsServer } from './ws/ws-server';
+import { APP_PORT, MONGO_CONNECTION_URL } from './env';
 
-const { Server } = ws;
-
-const APP_PORT = process.env.APP_PORT;
-const MONGO_CONNECTION_URL = 'mongodb+srv://nikolay_l:qwerqweruiop123@cluster0.pp51y.mongodb.net/database?retryWrites=true&w=majority';
-
-const wsConnections: Record<string, ws.WebSocket> = {};
+// const APP_PORT = process.env.APP_PORT;
+// const MONGO_CONNECTION_URL = 'mongodb+srv://nikolay_l:qwerqweruiop123@cluster0.pp51y.mongodb.net/database?retryWrites=true&w=majority';
 
 (async function (): Promise<void> {
     try {
@@ -24,27 +20,8 @@ const wsConnections: Record<string, ws.WebSocket> = {};
         return;
     }
 
-    const wss = new Server({ port: 9000 });
-    wss.on('connection', (connection) => {
-        const id = uuid();
-        wsConnections[id] = connection;
-        console.log('connection', id);
-
-        connection.on('message', (message) => {
-            const strMessage = message.toString('utf-8');
-
-            Object.values(wsConnections).forEach((currentWs) => {
-                if (currentWs !== connection) {
-                    currentWs.send(strMessage);
-                }
-            });
-        });
-
-        connection.on('close', () => {
-            delete wsConnections[id];
-            console.log('close', id);
-        });
-    });
+    // Web Socket
+    wsServer();
 
     const app = express();
     app.use(json());

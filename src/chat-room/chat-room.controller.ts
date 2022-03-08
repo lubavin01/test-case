@@ -38,7 +38,7 @@ export async function join(req: newRequest, res: Response): Promise<any> {
 
         const { id } = req.jwtPayload;
         if (room.usersInside.includes(id)) {
-            return res.status(400).json({ message: `You are in this room already"` });
+            return res.status(400).json({ message: `You are in this room already` });
         }
         room.usersInside.push(id);
 

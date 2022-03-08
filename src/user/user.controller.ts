@@ -1,16 +1,7 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
+import { generateJWT } from '../jwt/jwt';
 import { User } from './user.model';
-import { sign } from 'jsonwebtoken';
-
-import config from '../config';
-
-function generateJWT(userId: string): string {
-    const payload = {
-        id: userId,
-    };
-    return sign(payload, config.SECRET, { expiresIn: '1h' });
-}
 
 export async function signup(req: Request, res: Response): Promise<any> {
     try {
